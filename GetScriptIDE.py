@@ -10,6 +10,8 @@ from GetScriptHighlighter import GetScriptHighlighter
 from GetScriptCompiler import CompileStatus, GetScriptCompiler
 from GetScriptRunner import GetScriptRunner
 
+from Utils import GetUiPath
+
 class GetScriptListDelegate(QStyledItemDelegate):
     def initStyleOption(self, option, index):
         super().initStyleOption(option, index)
@@ -20,7 +22,7 @@ class GetScriptIDE(QtWidgets.QWidget):
 
     def __init__(self, parent = None):
         super(GetScriptIDE, self).__init__(parent)
-        uic.loadUi('ui/GetScriptIDE.ui', self)
+        uic.loadUi(GetUiPath(__file__, 'ui/GetScriptIDE.ui'), self)
 
         # Setup editor
         self.highlighter = GetScriptHighlighter(self.te_script_step_editor.document())

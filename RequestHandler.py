@@ -26,11 +26,15 @@ class RequestHandler:
         response = {}
         session = requests.Session()
         request = requests.Request(request_type.value, url, params=params, headers=headers, json=body, data=form)
-        res = session.send(request.prepare())
+        res = None
         try:
+            res = session.send(request.prepare())
             response = res.json()
         except Exception as exception:
-            response = { "status_code": res.status_code, "reason": res.reason }
+            if res is not None:
+                response = { "status_code": res.status_code, "reason": res.reason }
+            else:
+                response = { "status_code": 504, "reason": "Gateway Timeout" }
             response = json.dumps(response)
             response = json.loads(response)
         return request, response
